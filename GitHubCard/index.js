@@ -2,6 +2,15 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+let githubData = axios.get('https://api.github.com/users/Ken-Donahue')
+// .then(response => {
+//   const dogImgURLs = response.data.message
+//   dogImgURLs.forEach(imageURL => {
+//       const dogCard = dogCardMaker({imageURL: imageURL, breed: `${breed}`})
+//       entryPoint.appendChild(dogCard)
+//   })
+// })
+// .catch(error => console.log(error))
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -9,6 +18,7 @@
 
    Skip to Step 3.
 */
+
 
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
@@ -22,34 +32,76 @@
           
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
-*/
+          */
+         
+         const followersArray = [];
+         
+         /* Step 3: Create a function that accepts a single object as its only argument,
+         Using DOM methods and properties, create a component that will return the following DOM element:
+         
+         <div class="card">
+          <img src={image url of user} />
+          <div class="card-info">
+            <h3 class="name">{users name}</h3>
+            <p class="username">{users user name}</p>
+            <p>Location: {users location}</p>
+            <p>Profile:  
+              <a href={address to users github page}>{address to users github page}</a>
+            </p>
+            <p>Followers: {users followers count}</p>
+            <p>Following: {users following count}</p>
+            <p>Bio: {users bio}</p>
+          </div>
+         </div>
+         
+         */
+function githubCard({githubData}){
+  let gitCard = document.createElement('div');
+  let userImage = document.createElement('img');
+  let cardInfo = document.createElement('div');
+  let name = document.createElement('h3');
+  let userName = document.createElement('p');
+  let location = document.createElement('p');
+  let profile = document.createElement('p');
+  let profileLink = document.createElement('a');
+  let followers = document.createElement('p');
+  let following = document.createElement('p');
+  let bio = document.createElement('p');
 
-const followersArray = [];
+  gitCard.appendChild(userImage);
+  gitCard.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(username);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(profileLink);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
 
-/* Step 3: Create a function that accepts a single object as its only argument,
-          Using DOM methods and properties, create a component that will return the following DOM element:
+  gitCard.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
 
-<div class="card">
-  <img src={image url of user} />
-  <div class="card-info">
-    <h3 class="name">{users name}</h3>
-    <p class="username">{users user name}</p>
-    <p>Location: {users location}</p>
-    <p>Profile:  
-      <a href={address to users github page}>{address to users github page}</a>
-    </p>
-    <p>Followers: {users followers count}</p>
-    <p>Following: {users following count}</p>
-    <p>Bio: {users bio}</p>
-  </div>
-</div>
+  userImage.src = githubData.avatar_url;
+  profileLink.href = githubData.html_url;
 
-*/
+  name.textContent = githubData.name;
+  userName.textContent = githubData.login;
+  location.textContent = githubData.location;
+  profile.textContent = `Profile: ${profileLink}`;
+  followers.textContent = `Followers: ${githubData.followers}`;
+  following.textContent = `Following: ${githubData.following}`;
+  bio.textContent = `Bio: ${githubData.bio}`;
 
+  return gitCard;
+}
+        
 /* List of LS Instructors Github username's: 
-  tetondan
-  dustinmyers
-  justsml
-  luishrd
-  bigknell
+tetondan
+dustinmyers
+justsml
+luishrd
+bigknell
 */
