@@ -2,15 +2,18 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+let cards = document.querySelector('.cards')
 let githubData = axios.get('https://api.github.com/users/Ken-Donahue')
-// .then(response => {
-//   const dogImgURLs = response.data.message
-//   dogImgURLs.forEach(imageURL => {
-//       const dogCard = dogCardMaker({imageURL: imageURL, breed: `${breed}`})
-//       entryPoint.appendChild(dogCard)
-//   })
-// })
-// .catch(error => console.log(error))
+  .then( 
+    response => {
+      console.log('githubData: ' + response.data)
+      let cardResponse = githubCard(response.data);
+      cards.appendChild(cardResponse);
+  })
+  .catch(
+    error => {
+      console.log('Error message: ' + error);
+    })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -55,7 +58,7 @@ let githubData = axios.get('https://api.github.com/users/Ken-Donahue')
          </div>
          
          */
-function githubCard({githubData}){
+function githubCard(githubData){
   let gitCard = document.createElement('div');
   let userImage = document.createElement('img');
   let cardInfo = document.createElement('div');
@@ -71,7 +74,7 @@ function githubCard({githubData}){
   gitCard.appendChild(userImage);
   gitCard.appendChild(cardInfo);
   cardInfo.appendChild(name);
-  cardInfo.appendChild(username);
+  cardInfo.appendChild(userName);
   cardInfo.appendChild(location);
   cardInfo.appendChild(profile);
   profile.appendChild(profileLink);
@@ -89,14 +92,16 @@ function githubCard({githubData}){
 
   name.textContent = githubData.name;
   userName.textContent = githubData.login;
-  location.textContent = githubData.location;
-  profile.textContent = `Profile: ${profileLink}`;
+  location.textContent = `Location: ${githubData.location}`;
+  profile.textContent = `Profile: ${githubData.html_url}`;
   followers.textContent = `Followers: ${githubData.followers}`;
   following.textContent = `Following: ${githubData.following}`;
   bio.textContent = `Bio: ${githubData.bio}`;
 
   return gitCard;
 }
+
+// console.log(githubCard(githubData));
         
 /* List of LS Instructors Github username's: 
 tetondan
