@@ -11,7 +11,7 @@ const followersArray = [
 */
 let cards = document.querySelector('.cards')
 followersArray.forEach(user =>{
-let githubData = axios.get(`https://api.github.com/users/${user}`)
+axios.get(`https://api.github.com/users/${user}`)
   .then( 
     response => {
       console.log('githubData: ' + response.data)
